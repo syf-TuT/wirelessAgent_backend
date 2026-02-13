@@ -1,0 +1,43 @@
+User ID,Allocation Status,Slice,Ground Truth,Intent Correct,CQI,Bandwidth (MHz),Rate (Mbps),Latency (ms),Adjustments Made,eMBB Total Rate Before (Mbps),eMBB Total Rate After (Mbps),URLLC Total Rate Before (Mbps),URLLC Total Rate After (Mbps),mMTC Total Rate Before (Mbps),mMTC Total Rate After (Mbps),Avg Resource Util Before (%),Avg Resource Util After (%),Request
+1,Success,URLLC,URLLC,Yes,7,5,38.95,5,No,0,0,0,38.95,0,0,0,3.85,I need to synchronize distributed financial ledgers instantly
+2,Success,eMBB,eMBB,Yes,7,15,116.85,40,No,0,116.85,38.95,38.95,0,0,3.85,15.38,I want to use augmented reality navigation
+3,Success,eMBB,eMBB,Yes,10,20,208.28,50,No,116.85,325.13,38.95,38.95,0,0,15.38,30.77,I want to listen to low-quality audio streaming
+4,Success,eMBB,eMBB,Yes,8,15,129.58,50,No,325.13,454.71,38.95,38.95,0,0,30.77,42.31,I need to participate in a video conference meeting
+5,Success,URLLC,URLLC,Yes,9,4,38.06,5,No,454.71,454.71,38.95,77.01,0,0,42.31,45.38,I need to deploy early warning systems for natural disasters
+6,Success,mMTC,mMTC,Yes,7,0.9,7.01,1000,No,454.71,454.71,77.01,77.01,0,7.01,45.38,46.08,My smart trash can needs to signal that it's full
+7,Success,eMBB,eMBB,Yes,8,20,172.78,80,No,454.71,627.49,77.01,77.01,7.01,7.01,46.08,61.46,I need to download large files
+8,Success,mMTC,mMTC,Yes,7,0.9,7.01,500,No,627.49,627.49,77.01,77.01,7.01,14.02,61.46,62.15,I need to check the status of my smart home sensors
+9,Success,URLLC,URLLC,Yes,7,5,38.95,5,No,627.49,627.49,77.01,115.96,14.02,14.02,62.15,66,I need microsecond-level latency for high-frequency tradin
+10,Success,eMBB,eMBB,Yes,10,20,208.28,80,No,627.49,835.77,115.96,115.96,14.02,14.02,66,81.38,I need to download large files
+11,Success,URLLC,URLLC,Yes,11,4,45.33,5,No,835.77,835.77,115.96,161.29,14.02,14.02,81.38,84.46,I need vehicle-to-vehicle collision avoidance systems
+12,Success,eMBB,eMBB,Yes,15,20,302.7,40,Yes,835.77,930.19,161.29,161.29,14.02,14.02,84.46,84.46,I need to use cloud-based AI services for image processing
+13,Success,URLLC,URLLC,Yes,10,4,41.66,3,No,930.19,930.19,161.29,202.95,14.02,14.02,84.46,87.54,I need to control remote diagnostic equipment in rural clinics
+14,Success,mMTC,mMTC,Yes,9,1.9,18.08,1000,No,930.19,930.19,202.95,202.95,14.02,32.1,87.54,89,I need to monitor soil moisture levels in a large farm
+15,Success,URLLC,URLLC,Yes,15,5,75.68,3,No,930.19,930.19,202.95,278.63,32.1,32.1,89,92.85,I need to control precision CNC machines with zero tolerance for delay
+16,Success,mMTC,mMTC,Yes,6,1.9,13.25,500,No,930.19,930.19,278.63,278.63,32.1,45.35,92.85,94.31,Smart city parking sensor reporting availability
+17,Success,mMTC,eMBB,No,13,0.9,11.89,1000,No,930.19,930.19,278.63,278.63,45.35,57.24,94.31,95,I need to check weather forecasts
+18,Success,URLLC,URLLC,Yes,11,2,22.66,5,No,930.19,930.19,278.63,301.29,57.24,57.24,95,96.54,I need my autonomous vehicle to communicate in real time
+19,Success,URLLC,URLLC,Yes,5,1,6.19,5,No,930.19,930.19,301.29,307.48,57.24,57.24,96.54,97.31,I need to detect and isolate power grid faults instantly
+20,Success,URLLC,URLLC,Yes,12,1,12.27,1,Yes,930.19,930.19,307.48,304.61,57.24,57.24,97.31,97.31,I need reliable connectivity for implanted medical devices
+21,Success,mMTC,mMTC,Yes,12,0.9,11.04,1000,No,930.19,930.19,304.61,304.61,57.24,68.28,97.31,98,I need to track the location of a shipping container
+22,Success,URLLC,URLLC,Yes,6,1,6.97,5,Yes,930.19,930.19,304.61,296.45,68.28,68.28,98,98,I need instant alerts for life-threatening patient conditions
+23,Success,eMBB,eMBB,Yes,8,20,172.78,50,Yes,930.19,845.75,296.45,296.45,68.28,68.28,98,98,I want to stream music while browsing social media
+24,Success,mMTC,mMTC,Yes,7,0.9,7.01,500,No,845.75,845.75,296.45,296.45,68.28,75.29,98,98.69,A network of environmental sensors needs to report air quality
+25,Success,URLLC,eMBB,No,15,1,15.14,5,Yes,845.75,845.75,296.45,296.45,75.29,75.29,98.69,98.69,I want to remotely access my work computer
+26,Failed,eMBB,eMBB,Yes,9,20,190.3,50,No,845.75,845.75,296.45,296.45,75.29,75.29,98.69,98.69,I want to stream a live sports event in HD
+27,Success,mMTC,mMTC,Yes,9,0.9,8.56,500,No,845.75,845.75,296.45,296.45,75.29,83.85,98.69,99.38,My smart meter needs to report its reading
+28,Success,mMTC,mMTC,Yes,6,0.9,6.28,500,Yes,845.75,845.75,296.45,296.45,83.85,89.18,99.38,100,I need to check the status of my smart home sensors
+29,Success,URLLC,URLLC,Yes,13,1,13.21,3,Yes,845.75,845.75,296.45,298.33,89.18,89.18,100,100,I need to control critical infrastructure with zero downtime
+30,Success,mMTC,eMBB,No,8,0.9,7.78,1000,Yes,845.75,845.75,298.33,298.33,89.18,88.64,100,100,I need to check weather forecasts
+,,,,,,,,,,,,,,,,75.433,78.07931034,
+SUMMARY STATISTICS,,,,,,,,,,,,,,,,,30,
+Average Resource Utilization (%),100,,,,,,,,,,,,,,,,,
+Final Resource Utilization (%),100,,,,,,,,,,,,,,,,,
+Final eMBB Total Rate (Mbps),845.75,,,,,,,,,,,,,,,,,
+Final URLLC Total Rate (Mbps),298.33,,,,,,,,,,,,,,,,,
+Final mMTC Total Rate (Mbps),88.64,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+INTENT UNDERSTANDING EVALUATION,,,,,,,,,,,,,,,,,,
+Total Evaluated Requests,30,,,,,,,,,,,,,,,,,
+Correctly Identified Intents,27,,,,,,,,,,,,,,,,,
+Intent Understanding Rate (%),90,,,,,,,,,,,,,,,,,

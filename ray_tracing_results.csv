@@ -1,0 +1,31 @@
+RX_ID,X,Y,Z,SNR_dB,RX_Power_dBm,CQI,LOS,User_Request,Request_Label
+1,75.64,182.46,1.50,6.23,-86.76,7,0,I need to synchronize distributed financial ledgers instantly,URLLC
+2,-301.92,20.62,1.50,7.63,-85.36,7,0,I want to use augmented reality navigation,eMBB
+3,32.71,107.89,1.50,14.83,-78.16,10,0,I want to listen to low-quality audio streaming,eMBB
+4,-268.20,130.45,1.50,10.70,-82.29,8,0,I need to participate in a video conference meeting,eMBB
+5,-158.26,225.80,1.50,11.57,-81.42,9,0,I need to deploy early warning systems for natural disasters,URLLC
+6,-206.20,252.64,1.50,6.57,-86.42,7,0,My smart trash can needs to signal that it's full,mMTC
+7,76.41,111.86,1.50,9.20,-83.79,8,0,I need to download large files,eMBB
+8,-303.55,138.41,1.50,6.68,-86.31,7,0,I need to check the status of my smart home sensors,mMTC
+9,-294.67,-20.71,1.50,6.94,-86.05,7,0,I need microsecond-level latency for high-frequency tradin,URLLC
+10,-129.02,207.89,1.50,14.95,-78.04,10,0,I need to download large files,eMBB
+11,-99.00,-55.51,1.50,18.42,-74.57,11,0,I need vehicle-to-vehicle collision avoidance systems,URLLC
+12,-173.83,71.58,1.50,30.53,-62.45,15,0,I need to use cloud-based AI services for image processing,eMBB
+13,-153.66,-61.17,1.50,16.06,-76.93,10,0,I need to control remote diagnostic equipment in rural clinics,URLLC
+14,-258.44,43.93,1.50,13.36,-79.63,9,0,I need to monitor soil moisture levels in a large farm,mMTC
+15,-88.55,94.51,1.50,44.64,-48.35,15,0,I need to control precision CNC machines with zero tolerance for delay,URLLC
+16,-299.86,-43.22,1.50,5.45,-87.54,6,0,Smart city parking sensor reporting availability,mMTC
+17,-110.76,-32.25,1.50,22.92,-70.07,13,0,I need to check weather forecasts,eMBB
+18,19.70,71.93,1.50,17.84,-75.15,11,0,I need my autonomous vehicle to communicate in real time,URLLC
+19,-291.73,249.12,1.50,2.06,-90.92,5,0,I need to detect and isolate power grid faults instantly,URLLC
+20,-102.93,177.51,1.50,20.39,-72.60,12,0,I need reliable connectivity for implanted medical devices,URLLC
+21,-3.68,44.62,1.50,21.79,-71.20,12,0,I need to track the location of a shipping container,mMTC
+22,-254.85,242.13,1.50,4.73,-88.26,6,0,I need instant alerts for life-threatening patient conditions,URLLC
+23,-164.51,244.21,1.50,9.21,-83.78,8,0,I want to stream music while browsing social media,eMBB
+24,84.10,163.65,1.50,6.44,-86.55,7,0,A network of environmental sensors needs to report air quality,mMTC
+25,-155.43,62.26,1.50,36.84,-56.15,15,0,I want to remotely access my work computer,eMBB
+26,56.83,57.37,1.50,12.27,-80.72,9,0,I want to stream a live sports event in HD,eMBB
+27,-234.37,153.06,1.50,13.25,-79.74,9,0,My smart meter needs to report its reading,mMTC
+28,118.69,158.90,1.50,3.64,-89.35,6,0,I need to check the status of my smart home sensors,mMTC
+29,-87.68,-26.40,1.50,23.86,-69.13,13,0,I need to control critical infrastructure with zero downtime,URLLC
+30,-244.39,174.80,1.50,10.54,-82.45,8,0,I need to check weather forecasts,eMBB
