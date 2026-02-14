@@ -72,7 +72,7 @@
         "Create app/services/resource_calculator.py with calculation functions",
         "Create app/services/state_manager.py for global state management"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "F005",

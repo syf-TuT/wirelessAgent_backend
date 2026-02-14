@@ -255,4 +255,110 @@ All model imports working correctly:
 
 ---
 
+### 2026-02-14 - Feature F004: Core Service Layer (COMPLETED)
+
+**Completed Tasks:**
+
+1. **Created StateManager Service** (`app/services/state_manager.py`):
+   - Manages global network state across three slices (eMBB, URLLC, mMTC)
+   - Tracks allocated bandwidth and user information per slice
+   - Provides slice capacity checking and load balancing queries
+   - Implements state reset functionality for testing
+   - Methods: allocate_user, deallocate_user, get_slice_status, get_utilization_rates, etc.
+
+2. **Created ResourceCalculator Service** (`app/services/resource_calculator.py`):
+   - Implements Shannon's formula for data rate calculation
+   - Calculates transmission latency based on bandwidth, CQI, and slice type
+   - Allocates bandwidth with dynamic adjustment based on CQI and available capacity
+   - CQI validation and conversion to SNR
+   - Dynamic bandwidth adjustment for rate targeting
+   - Slice-specific constraints (min/max bandwidth, latency bounds)
+
+3. **Created IntentUnderstandingService** (`app/services/intent_understanding.py`):
+   - Classifies user requests into intent types (BROADBAND, LOW_LATENCY, IOT)
+   - Supports both knowledge-base and pure heuristic classification
+   - Falls back to heuristic when LLM unavailable
+   - Extracts entities from requests (bandwidth hints, latency hints, reliability hints)
+   - Provides confidence scores for classifications
+   - Methods: classify_intent, extract_entity_from_request, get_slice_recommendation_reasons
+
+4. **Created NetworkSlicingService** (`app/services/network_slicing.py`):
+   - Main orchestration service combining intent understanding, resource calculation, and state management
+   - Intelligently selects slice type with load balancing
+   - Allocates resources and tracks allocation history
+   - Supports batch processing of multiple user requests
+   - Provides network metrics and detailed status information
+   - Methods: allocate_resources, deallocate_user, get_network_state, reset_network_state, process_batch_requests
+
+5. **Updated services/__init__.py**:
+   - Added proper exports for all service classes
+   - Enables clean imports: `from app.services import StateManager, ResourceCalculator, ...`
+
+6. **Created Comprehensive Test Suite** (`test_f004_services.py`):
+   - Tests all four service classes with multiple test cases
+   - Validates StateManager: state initialization, allocation, utilization tracking, deallocation, reset
+   - Validates ResourceCalculator: CQI handling, rate calculation, bandwidth allocation, latency calculation
+   - Validates IntentUnderstandingService: classification accuracy for all intent types, entity extraction
+   - Validates NetworkSlicingService: resource allocation, load balancing, batch processing, metrics
+   - All 40+ test cases passing
+
+**Files Created/Modified:**
+- `app/services/state_manager.py` (NEW)
+- `app/services/resource_calculator.py` (NEW)
+- `app/services/intent_understanding.py` (NEW)
+- `app/services/network_slicing.py` (NEW)
+- `app/services/__init__.py` (MODIFIED - added exports)
+- `feature_list.json` (MODIFIED - F004 marked as passes: true)
+- `test_f004_services.py` (NEW)
+
+**Key Design Decisions:**
+1. StateManager uses in-memory state (production version would use database)
+2. ResourceCalculator encapsulates all network calculations (rate, latency, bandwidth)
+3. IntentUnderstandingService gracefully handles LLM failures with heuristic fallback
+4. NetworkSlicingService integrates all other services for end-to-end allocation
+5. All services are stateless/configurable to work with dependency injection
+
+**Acceptance Criteria Met:**
+- ✓ NetworkSlicingService class encapsulates allocation logic
+- ✓ IntentUnderstandingService handles classification (with LLM support)
+- ✓ ResourceCalculator implements Shannon formula and rate calculations  
+- ✓ StateManager handles global network state with allocation/deallocation
+
+**Test Results:**
+```
+Testing StateManager: ALL TESTS PASSED ✓
+Testing ResourceCalculator: ALL TESTS PASSED ✓
+Testing IntentUnderstandingService: ALL TESTS PASSED ✓
+Testing NetworkSlicingService: ALL TESTS PASSED ✓
+```
+
+**Example Usage:**
+```python
+# Create service
+service = NetworkSlicingService()
+
+# Allocate resources for a user
+result = service.allocate_resources(
+    user_id="user_1",
+    request="I want to stream 4K video",
+    cqi=7
+)
+# Returns: {status: "success", slice_type: "eMBB", allocated_bandwidth: 12.0, ...}
+
+# Get network metrics
+metrics = service.get_network_metrics()
+# Returns: {total_users: 1, slices: {eMBB: {...}, URLLC: {...}, mMTC: {...}}}
+
+# Process batch requests
+results = service.process_batch_requests([
+    {user_id: "1", request: "Stream video", cqi: 8},
+    {user_id: "2", request: "Real-time control", cqi: 14},
+])
+```
+
+**Next Feature:** F005 - FastAPI Application
+
+---
+
 *This log is maintained by the Coding Agent during development sessions.*
+
