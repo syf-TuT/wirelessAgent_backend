@@ -54,7 +54,7 @@
         "Create app/models/request.py with request/response schemas",
         "Define enums for SliceType, AllocationStatus in app/models/enums.py"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "F004",

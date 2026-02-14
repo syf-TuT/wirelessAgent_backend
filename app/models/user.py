@@ -17,6 +17,39 @@ class UserLocation(BaseModel):
         return f"({self.x}, {self.y}, {self.z})"
 
 
+class User(BaseModel):
+    """Complete user model with location, CQI, and request information."""
+
+    user_id: str = Field(
+        ...,
+        description="Unique user identifier",
+        min_length=1,
+        max_length=100,
+    )
+    location: UserLocation = Field(
+        ...,
+        description="User's 3D geographical location",
+    )
+    cqi: int = Field(
+        ...,
+        description="Channel Quality Indicator (1-15, higher is better)",
+        ge=1,
+        le=15,
+    )
+    request: "UserRequest" = Field(
+        ...,
+        description="User's service request",
+    )
+    ground_truth: Optional[str] = Field(
+        default=None,
+        description="Ground truth slice type for testing/evaluation",
+    )
+
+    def __str__(self) -> str:
+        """Return string representation."""
+        return f"User(id={self.user_id}, cqi={self.cqi}, location={self.location})"
+
+
 class UserRequest(BaseModel):
     """User request for network resources."""
 
