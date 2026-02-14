@@ -36,7 +36,7 @@
         "Move hardcoded API keys and paths to environment variables",
         "Create .env.example file with required variables"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "F003",
@@ -229,6 +229,6 @@
     }
   ],
   "total_features": 12,
-  "completed_features": 1,
-  "status": "initialized"
+  "completed_features": 2,
+  "status": "in_progress"
 }

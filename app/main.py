@@ -8,7 +8,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.core.config import get_settings
+from app.core.config import get_cached_settings, get_settings
 
 
 def create_app() -> FastAPI:
@@ -17,7 +17,7 @@ def create_app() -> FastAPI:
     Returns:
         FastAPI: Configured FastAPI application instance.
     """
-    settings = get_settings()
+    settings = get_cached_settings()
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):

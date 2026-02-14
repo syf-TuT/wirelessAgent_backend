@@ -137,4 +137,70 @@ When completing a feature:
 
 ---
 
+### 2025-02-13 - Feature F002: Configuration Management (COMPLETED)
+
+**Completed Tasks:**
+1. Enhanced `app/core/config.py` with environment-specific settings:
+   - `DevelopmentSettings` - Debug enabled, console logging, permissive CORS
+   - `TestingSettings` - Debug disabled, test-specific ports and capacities
+   - `ProductionSettings` - JSON logging, strict CORS validation, security checks
+
+2. Added security validators for production:
+   - CORS origins cannot be wildcard (*) in production
+   - CORS origins must be explicitly set in production
+   - LLM API key is required in production
+
+3. Created environment-specific `.env` files:
+   - `.env.example` - Template with all available options
+   - `.env.development` - Development environment defaults
+   - `.env.testing` - Testing environment configuration
+   - `.env.production` - Production environment with security hardening
+
+4. Updated `.env.example` with `ENV` variable for environment selection
+
+5. Updated `app/main.py` to use `get_cached_settings()` for better performance
+
+6. Created comprehensive tests in `tests/unit/core/test_config.py`:
+   - Tests for default settings
+   - Tests for CORS origins parsing
+   - Tests for log level validation
+   - Tests for environment-specific settings
+   - Tests for production security validators
+   - Tests for settings caching
+
+**Files Modified/Created:**
+- `app/core/config.py` (enhanced with env-specific classes and validators)
+- `.env.example` (updated with ENV variable)
+- `.env.development` (new)
+- `.env.testing` (new)
+- `.env.production` (new)
+- `app/main.py` (updated to use cached settings)
+- `tests/unit/core/__init__.py` (new)
+- `tests/unit/core/test_config.py` (new)
+
+**Test Results:**
+All 22 tests pass:
+- TestSettings: 6 tests
+- TestDevelopmentSettings: 1 test
+- TestTestingSettings: 1 test
+- TestProductionSettings: 5 tests
+- TestGetSettings: 6 tests
+- TestCachedSettings: 2 tests
+
+**Acceptance Criteria Met:**
+- ✓ Pydantic Settings used for configuration
+- ✓ Environment variables properly loaded
+- ✓ Separate configurations for dev/test/prod environments
+- ✓ Sensitive data (API keys) not hardcoded
+
+**Security Features Implemented:**
+- Production CORS validation prevents wildcard origins
+- Production requires explicit API key configuration
+- Environment-specific defaults prevent accidental production misconfiguration
+- `.env` files are gitignored to prevent credential leakage
+
+**Next Feature:** F003 - Data Models
+
+---
+
 *This log is maintained by the Coding Agent during development sessions.*

@@ -7,7 +7,7 @@ from app.main import create_app
 
 @pytest.fixture
 def app():
-    """Create application for testing."""
+    """Create application for testin  g."""
     return create_app()
 
 

@@ -3,7 +3,10 @@
     "allow": [
       "Bash(chmod:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(python:*)",
+      "Bash(ls:*)",
+      "Bash(.env << 'EOF'\n# Development Environment Configuration\n\nENV=development\n\nAPP_NAME=WirelessAgent Backend\nAPP_VERSION=1.0.0\nDEBUG=true\nLOG_LEVEL=DEBUG\nLOG_FORMAT=console\n\nHOST=0.0.0.0\nPORT=8000\nWORKERS=1\n\nCORS_ORIGINS=http://localhost:3000,http://localhost:8080\nCORS_ALLOW_CREDENTIALS=true\nCORS_ALLOW_METHODS=GET,POST,PUT,DELETE,OPTIONS\nCORS_ALLOW_HEADERS=Content-Type,Authorization\n\nLLM_API_KEY=\nLLM_BASE_URL=https://api.deepseek.com\nLLM_MODEL=deepseek-chat\nLLM_TEMPERATURE=0.0\n\nKNOWLEDGE_BASE_PATH=./with_knowledge_base/Intent_Understand.txt\nRAY_TRACING_DATA_PATH=./ray_tracing_results.csv\n\nEMBB_TOTAL_CAPACITY=90\nURLLC_TOTAL_CAPACITY=30\nMMTC_TOTAL_CAPACITY=10\nEOF)"
     ]
   }
 }
