@@ -19,6 +19,7 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",
+        json_file=None,  # Disable JSON file parsing
     )
 
     # Application settings
@@ -36,13 +37,13 @@ class Settings(BaseSettings):
     workers: int = Field(default=1, description="Number of worker processes")
 
     # CORS settings
-    cors_origins: List[str] = Field(
-        default=["*"],
-        description="Allowed CORS origins"
+    cors_origins: str = Field(
+        default="*",
+        description="Allowed CORS origins (comma-separated or JSON array)"
     )
     cors_allow_credentials: bool = Field(default=True)
-    cors_allow_methods: List[str] = Field(default=["*"])
-    cors_allow_headers: List[str] = Field(default=["*"])
+    cors_allow_methods: str = Field(default="*", description="Allowed CORS methods (comma-separated)")
+    cors_allow_headers: str = Field(default="*", description="Allowed CORS headers (comma-separated)")
 
     # LLM API settings
     llm_api_key: Optional[str] = Field(
@@ -85,14 +86,6 @@ class Settings(BaseSettings):
         default="json",
         description="Log format (json or console)"
     )
-
-    @field_validator("cors_origins", mode="before")
-    @classmethod
-    def parse_cors_origins(cls, v):
-        """Parse CORS origins from string or list."""
-        if isinstance(v, str):
-            return [origin.strip() for origin in v.split(",")]
-        return v
 
     @field_validator("log_level")
     @classmethod

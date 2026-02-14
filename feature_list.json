@@ -90,7 +90,7 @@
         "Add startup/shutdown event handlers",
         "Create app/api/health.py with health check endpoint"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "F006",

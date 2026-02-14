@@ -3,12 +3,33 @@ FastAPI Application Factory.
 
 Creates and configures the FastAPI application instance.
 """
+import json
 from contextlib import asynccontextmanager
+from typing import List, Union
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import get_cached_settings, get_settings
+
+
+def _parse_cors_list(value: Union[str, List[str]]) -> List[str]:
+    """Parse CORS configuration from string or list."""
+    if isinstance(value, list):
+        return value
+    
+    if isinstance(value, str):
+        value = value.strip()
+        # Try to parse as JSON array
+        if value.startswith("["):
+            try:
+                return json.loads(value)
+            except json.JSONDecodeError:
+                pass
+        # Parse as comma-separated list
+        return [item.strip() for item in value.split(",") if item.strip()]
+    
+    return [str(value)]
 
 
 def create_app() -> FastAPI:
@@ -45,10 +66,10 @@ def create_app() -> FastAPI:
     # Add CORS middleware
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.cors_origins,
+        allow_origins=_parse_cors_list(settings.cors_origins),
         allow_credentials=settings.cors_allow_credentials,
-        allow_methods=settings.cors_allow_methods,
-        allow_headers=settings.cors_allow_headers,
+        allow_methods=_parse_cors_list(settings.cors_allow_methods),
+        allow_headers=_parse_cors_list(settings.cors_allow_headers),
     )
 
     # Register API routers (will be added in F006)
