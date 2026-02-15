@@ -114,7 +114,7 @@
     {
       "id": "F007",
       "category": "Background Task Processing",
-      "description": "Implement Celery or FastAPI BackgroundTasks for async processing of allocations",
+      "description": "Implement FastAPI BackgroundTasks for async processing of allocations",
       "acceptance_criteria": [
         "Async allocation processing for batch requests",
         "Background task queue for resource calculations",
@@ -122,10 +122,11 @@
         "Result callback mechanism"
       ],
       "steps": [
-        "Add celery or FastAPI BackgroundTasks to requirements",
-        "Create app/worker/celery_app.py for Celery configuration (if using Celery)",
         "Create app/services/task_service.py for task management",
-        "Add task status endpoints in app/api/v1/endpoints/tasks.py"
+        "Create app/api/v1/endpoints/tasks.py with task status endpoints",
+        "Add BackgroundTasks support to allocation endpoints for async processing",
+        "Implement task status tracking (pending/processing/completed/failed)",
+        "Add result retrieval endpoints"
       ],
       "passes": false
     },
