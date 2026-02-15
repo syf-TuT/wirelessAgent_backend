@@ -347,3 +347,30 @@ Do not include any other text."""
             base_confidence = 0.85
         
         return min(base_confidence, 1.0)
+    
+    def understand_intent(self, request: str) -> Dict[str, Any]:
+        """
+        Understand and classify user intent from a request.
+        
+        This is the main public method used by API endpoints.
+        
+        Args:
+            request: User's natural language request
+            
+        Returns:
+            Dictionary with intent classification results
+        """
+        intent, slice_type, reasoning = self.classify_intent(request)
+        
+        # Get confidence and other details
+        confidence = self._calculate_confidence(intent, request)
+        
+        result = {
+            "intent": intent.value,  # "BROADBAND", "LOW_LATENCY", "IOT"
+            "slice_type": slice_type.value,  # "eMBB", "URLLC", "mMTC"
+            "confidence": confidence,
+            "reasoning": " ".join(reasoning),
+            "request_text": request,
+        }
+        
+        return result

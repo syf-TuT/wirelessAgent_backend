@@ -313,3 +313,31 @@ class StateManager:
         """
         rates = self.get_utilization_rates()
         return max(rates.keys(), key=lambda k: rates[k])
+    
+    def get_global_state(self) -> Dict[str, Any]:
+        """
+        Get the global network state with legacy API compatibility.
+        
+        Returns:
+            Dictionary with state keyed by 'embb_slice', 'urllc_slice', 'mmtc_slice'
+        """
+        state = self.get_current_state()
+        
+        # Convert SliceType keys to legacy format for API compatibility
+        global_state = {
+            "embb_slice": state.get(SliceType.EMBB, {}),
+            "urllc_slice": state.get(SliceType.URLLC, {}),
+            "mmtc_slice": state.get(SliceType.MMTC, {}),
+            "timestamp": state.get("timestamp"),
+            "total_users": state.get("total_users", 0),
+        }
+        
+        return global_state
+    
+    def reset_state(self):
+        """
+        Reset network state to initial conditions.
+        
+        This is an alias for reset_to_initial for API compatibility.
+        """
+        return self.reset_to_initial()

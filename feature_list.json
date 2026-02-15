@@ -109,7 +109,7 @@
         "Create app/api/v1/endpoints/intent.py with intent understanding endpoint",
         "Create app/api/v1/router.py to aggregate all API routers"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": "F007",

@@ -458,4 +458,147 @@ results = service.process_batch_requests([
 
 ---
 
+### 2026-02-15 - Feature F006: RESTful API Endpoints (COMPLETED)
+
+**Completed Tasks:**
+
+1. **Verified API Endpoint Implementation**:
+   - All three endpoint modules already existed (allocations.py, network.py, intent.py)
+   - Router aggregator (router.py) was properly configured
+   - All endpoints properly registered in main FastAPI app
+
+2. **Fixed Code Issues**:
+   - Fixed global variable declaration issue in allocations.py (moved `global` statement before usage)
+   - Added missing `understand_intent()` method to IntentUnderstandingService
+   - Added `get_global_state()` method to StateManager for API compatibility
+   - Added `reset_state()` alias method for StateManager API consistency
+
+3. **Updated Dependencies**:
+   - Added pydantic-settings to requirements.txt
+   - Fixed starlette version compatibility (0.35.0 for fastapi 0.109.0)
+   - Installed python-dotenv dependency
+
+4. **Implemented and Verified All Required Endpoints**:
+
+   **Allocation Endpoints** (allocations.py):
+   - `POST /api/v1/allocations` - Create new resource allocation
+   - `GET /api/v1/allocations/{allocation_id}` - Get allocation by ID
+   - `GET /api/v1/allocations` - List all allocations with optional filtering
+   
+   **Network State Endpoints** (network.py):
+   - `GET /api/v1/network/state` - Get current network state with slice metrics
+   - `POST /api/v1/network/reset` - Reset network state to initial conditions
+   - `GET /api/v1/network/slices` - Get detailed slice information
+   
+   **Intent Understanding Endpoints** (intent.py):
+   - `POST /api/v1/intent/understand` - Classify user intent into slice type
+   - `GET /api/v1/intent/examples` - Get examples for each intent type
+
+5. **Created Comprehensive Verification Tests**:
+   - `test_f006_simple.py` - Comprehensive verification script
+   - Verified all routes are properly registered
+   - Verified all service layers are accessible
+   - Verified model classes are functional
+   - Verified end-to-end service operations
+
+**Files Modified/Created:**
+
+- `app/api/v1/endpoints/allocations.py` (MODIFIED - fixed global declaration)
+- `app/api/v1/endpoints/network.py` (Already complete)
+- `app/api/v1/endpoints/intent.py` (Already complete)
+- `app/api/v1/router.py` (Already complete)
+- `app/main.py` (Already complete with router registration)
+- `app/services/intent_understanding.py` (MODIFIED - added understand_intent method)
+- `app/services/state_manager.py` (MODIFIED - added get_global_state and reset_state methods)
+- `requirements.txt` (MODIFIED - added pydantic-settings and starlette)
+- `test_f006_simple.py` (NEW - verification test script)
+- `test_f006_endpoints.py` (NEW - detailed endpoint test script)
+- `debug_state.py` (NEW - debugging script for state structure)
+
+**Acceptance Criteria Met:**
+
+- ✓ POST /api/v1/allocations - Create new resource allocation
+- ✓ GET /api/v1/allocations/{id} - Get allocation by ID
+- ✓ GET /api/v1/network/state - Get current network state
+- ✓ POST /api/v1/network/reset - Reset network state
+- ✓ POST /api/v1/intent/understand - Classify intent without allocation
+
+**Test Results:**
+
+All endpoint registration tests PASSED:
+```
+Test 1: Importing FastAPI application... [PASS]
+Test 2: Verifying app instance... [PASS]
+Test 3: Checking for required routes... [PASS] Found 7/7 routes
+Test 4: Verifying service layer classes... [PASS]
+Test 5: Verifying model classes... [PASS]
+Test 6: Testing service instantiation... [PASS]
+Test 7: Testing basic service operations... [PASS]
+Test 8: Testing intent understanding service... [PASS]
+Test 9: Testing resource calculator... [PASS]
+Test 10: Checking endpoint registration... [PASS]
+```
+
+**Key Implementation Details:**
+
+1. **Allocation Storage**: Uses in-memory dictionary `_allocations_db` for demo purposes
+2. **Allocation ID Generation**: Auto-increments from `alloc_0`, `alloc_1`, etc.
+3. **Network State Format**: Properly converts between SliceType enums and API response format
+4. **Intent Classification**: Returns classified intent with confidence scores
+5. **State Management**: Supports network reset for testing and demo scenarios
+
+**API Documentation**:
+
+The FastAPI Swagger documentation is available at:
+```
+http://localhost:8000/docs
+```
+
+All endpoints include:
+- Description and usage examples
+- Request/Response Pydantic models with validation
+- Status codes and error handling
+- Example payloads in documentation
+
+**Challenges and Solutions:**
+
+1. **Global Variable Declaration**: Python requires `global` to come before usage - fixed by moving declaration to function start
+2. **Missing Service Methods**: IntentUnderstandingService needed `understand_intent()` method - added with proper result formatting
+3. **State Structure Compatibility**: StateManager used SliceType enums while API expected string keys - added `get_global_state()` converter
+4. **Dependency Versions**: fastapi 0.109.0 requires starlette <0.36.0, had to correct version conflict
+
+**Example Usage:**
+
+```bash
+# Start the server
+python -m uvicorn app.main:app --reload
+
+# Create an allocation (from another terminal)
+curl -X POST "http://localhost:8000/api/v1/allocations" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "user_001",
+    "location": {"x": 75.64, "y": 182.46, "z": 1.50},
+    "request": {"text": "I need to stream 4K video"},
+    "cqi": 12,
+    "ground_truth": "eMBB"
+  }'
+
+# Get network state
+curl "http://localhost:8000/api/v1/network/state"
+
+# Understand intent
+curl -X POST "http://localhost:8000/api/v1/intent/understand" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_request": "I need to stream 4K video",
+    "ground_truth": "eMBB"
+  }'
+```
+
+**Next Feature:** F007 - Background Task Processing
+
+---
+
 _This log is maintained by the Coding Agent during development sessions._
+

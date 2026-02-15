@@ -72,9 +72,9 @@ def create_app() -> FastAPI:
         allow_headers=_parse_cors_list(settings.cors_allow_headers),
     )
 
-    # Register API routers (will be added in F006)
-    # from app.api.v1.router import api_router
-    # app.include_router(api_router, prefix="/api/v1")
+    # Register API routers
+    from app.api.v1.router import api_router
+    app.include_router(api_router)
 
     @app.get("/")
     async def root():
