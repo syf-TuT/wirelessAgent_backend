@@ -7,6 +7,7 @@ import re
 from tabulate import tabulate  # For formatted table output
 import pandas as pd  # For reading CSV files and exporting results
 import csv  # For writing CSV files
+import copy  # For deep copy operations
 
 # LangGraph and LangChain related
 from langgraph.graph import StateGraph, END
@@ -249,8 +250,8 @@ GLOBAL_NETWORK_STATE = {
     "total_users": 0
 }
 
-# Store initial network state for reset operations
-INITIAL_NETWORK_STATE = GLOBAL_NETWORK_STATE.copy()
+# Store initial network state for reset operations using deep copy to ensure independence
+INITIAL_NETWORK_STATE = copy.deepcopy(GLOBAL_NETWORK_STATE)
 
 # Store network state before each allocation for comparison
 PREVIOUS_NETWORK_STATE = None
@@ -274,8 +275,8 @@ def reset_network_state():
     """Reset network state to initial values for fresh testing"""
     global GLOBAL_NETWORK_STATE, PREVIOUS_NETWORK_STATE
     
-    # Reset to initial state
-    GLOBAL_NETWORK_STATE = INITIAL_NETWORK_STATE.copy()
+    # Reset to initial state using deep copy to ensure all nested objects are independent
+    GLOBAL_NETWORK_STATE = copy.deepcopy(INITIAL_NETWORK_STATE)
     
     # Reset timestamp
     GLOBAL_NETWORK_STATE["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

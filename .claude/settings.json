@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Bash(dir:*)",
+      "Bash(chcp:*)",
+      "Bash( echo:*)",
+      "Bash(powershell:*)",
+      "Bash(cmd:*)"
+    ]
+  },
+  "terminal": {
+    "default": "cmd",
+    "encoding": "utf-8"
+  }
+}

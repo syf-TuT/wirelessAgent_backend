@@ -1,0 +1,11 @@
+RX_ID,X,Y,Z,SNR_dB,RX_Power_dBm,CQI,LOS,User_Request,Request_Label
+1,75.64,182.46,1.50,7.0,-65.3,7,1,I need to synchronize distributed financial ledgers instantly,URLLC
+2,-39.01,-0.50,1.50,7.0,-68.5,7,1,I want to use augmented reality navigation,eMBB
+3,-62.97,141.28,1.50,10.0,-60.2,10,1,I want to listen to low-quality audio streaming,eMBB
+4,-43.35,-65.84,1.50,8.0,-63.1,8,1,I need to participate in a video conference meeting,eMBB
+5,175.82,31.38,1.50,9.0,-58.9,9,1,I need to deploy early warning systems for natural disasters,URLLC
+6,120.45,89.23,1.50,7.0,-64.5,7,1,My smart trash can needs to signal that it's full,mMTC
+7,95.67,45.12,1.50,8.0,-62.8,8,1,I need to download large files,eMBB
+8,156.34,78.91,1.50,7.0,-65.1,7,1,I need to check status of my smart home sensors,mMTC
+9,45.23,112.56,1.50,7.0,-66.2,7,1,I need microsecond-level latency for high-frequency trading,URLLC
+10,88.76,34.21,1.50,10.0,-59.8,10,1,I need to download large files,eMBB

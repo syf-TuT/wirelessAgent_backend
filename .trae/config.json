@@ -1,0 +1,11 @@
+{
+  "python": {
+    "interpreter": ".venv/Scripts/python.exe",
+    "pip": ".venv/Scripts/pip.exe",
+    "use_venv": true
+  },
+  "terminal": {
+    "shell": "cmd",
+    "activate_venv": ".venv/Scripts/activate"
+  }
+}
