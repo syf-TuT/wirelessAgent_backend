@@ -21,11 +21,11 @@
     </div>
 
     <div v-if="selectedFile" class="action-buttons">
-      <el-button type="primary" size="large" :loading="processing" @click="handleProcess" class="process-btn">
-        <el-icon><video-play /></el-icon>
-        开始处理
+      <el-button type="primary" size="large" :loading="processing" :disabled="processing" @click="handleProcess" class="process-btn" :class="{ 'is-processing': processing }">
+        <el-icon v-if="!processing"><video-play /></el-icon>
+        {{ processing ? '处理中...' : '开始处理' }}
       </el-button>
-      <el-button size="large" @click="handleClear" class="clear-btn">
+      <el-button size="large" :disabled="processing" @click="handleClear" class="clear-btn">
         <el-icon>
           <delete />
         </el-icon>
@@ -243,13 +243,28 @@ defineExpose({
   transform: translateY(0);
 }
 
+.process-btn.is-processing {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+  cursor: not-allowed;
+}
+
+.process-btn.is-processing:hover {
+  transform: none;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
 .clear-btn {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.1);
   color: #1e293b;
 }
 
-.clear-btn:hover {
+.clear-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.clear-btn:hover:not(:disabled) {
   background: #f8fafc;
   border-color: rgba(99, 102, 241, 0.3);
   transform: translateY(-2px);

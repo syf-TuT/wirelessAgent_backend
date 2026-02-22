@@ -63,9 +63,10 @@ class ApiService {
     }
   }
 
-  async processCSV(file: File, onProgress?: (progress: number) => void): Promise<any> {
+  async processCSV(file: File, useKnowledgeBase: boolean = false, onProgress?: (progress: number) => void): Promise<any> {
     const formData = new FormData()
     formData.append('file', file)
+    formData.append('use_knowledge_base', useKnowledgeBase.toString())
 
     const config: AxiosRequestConfig = {
       headers: {

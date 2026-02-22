@@ -1,5 +1,13 @@
 <template>
   <div class="app-container">
+    <svg width="0" height="0" style="position: absolute;">
+      <defs>
+        <linearGradient id="spinnerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+    </svg>
     <div class="app-header">
       <div class="header-background">
         <div class="grid-pattern"></div>
@@ -22,7 +30,7 @@
           </div>
         </div>
         <div class="header-info">
-          <VersionTag />
+          <VersionTag @update:useKnowledgeBase="handleVersionUpdate" />
         </div>
       </div>
     </div>
@@ -51,11 +59,16 @@
       </el-row>
     </div>
 
-    <div v-if="processing" class="processing-overlay">
+    <div v-if="processing" class="processing-overlay" role="dialog" aria-modal="true" aria-labelledby="processing-title">
       <div class="processing-content">
-        <el-progress type="circle" :percentage="uploadProgress" :width="120" />
-        <h3>正在处理中...</h3>
-        <p>{{ uploadProgress }}%</p>
+        <div class="loading-icon-wrapper">
+          <svg class="loading-spinner" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+            <circle class="spinner-track" cx="25" cy="25" r="20" fill="none" stroke-width="4"></circle>
+            <circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="4" stroke-linecap="round"></circle>
+          </svg>
+          <div class="loading-pulse"></div>
+        </div>
+        <h3 id="processing-title">{{ processingMessage }}</h3>
       </div>
     </div>
   </div>
@@ -94,6 +107,8 @@ const logs = ref<LogEntry[]>([])
 const results = ref<AllocationResult[]>([])
 const processing = ref(false)
 const uploadProgress = ref(0)
+const useKnowledgeBase = ref(false)
+const processingMessage = ref('正在处理中...')
 
 const addLog = (type: 'info' | 'success' | 'warning' | 'error', message: string) => {
   const now = new Date()
@@ -101,14 +116,21 @@ const addLog = (type: 'info' | 'success' | 'warning' | 'error', message: string)
   logs.value.push({ type, message, time })
 }
 
+const handleVersionUpdate = (value: boolean) => {
+  useKnowledgeBase.value = value
+  addLog('info', `切换到${value ? '有知识库' : '无知识库'}版本`)
+}
+
 const handleFileProcess = async (file: File) => {
   try {
     processing.value = true
     uploadProgress.value = 0
+    processingMessage.value = '正在处理文件...'
     addLog('info', `开始处理文件: ${file.name}`)
     addLog('info', `文件大小: ${(file.size / 1024).toFixed(2)} KB`)
-
-    const response = await apiService.processCSV(file, (progress) => {
+    addLog('info', `使用${useKnowledgeBase.value ? '有知识库' : '无知识库'}版本`)
+    
+    const response = await apiService.processCSV(file, useKnowledgeBase.value, (progress) => {
       uploadProgress.value = progress
       if (progress % 20 === 0) {
         addLog('info', `上传进度: ${progress}%`)
@@ -116,6 +138,7 @@ const handleFileProcess = async (file: File) => {
     })
 
     addLog('success', '文件上传成功')
+    processingMessage.value = '正在解析CSV文件...'
     addLog('info', '开始解析CSV文件...')
 
     await new Promise(resolve => setTimeout(resolve, 500))
@@ -123,6 +146,7 @@ const handleFileProcess = async (file: File) => {
 
     if (response && response.results) {
       results.value = response.results
+      processingMessage.value = '正在分配网络切片资源...'
       addLog('success', `成功解析 ${response.results.length} 条用户记录`)
       addLog('info', '开始网络切片资源分配...')
 
@@ -144,21 +168,23 @@ const handleFileProcess = async (file: File) => {
         }
       }
 
+      processingMessage.value = '处理完成！'
       addLog('success', '所有用户处理完成')
       addLog('info', `成功分配: ${results.value.filter(r => !r.allocation_failed).length} 条`)
       addLog('info', `分配失败: ${results.value.filter(r => r.allocation_failed).length} 条`)
-
       ElMessage.success('处理完成！')
     } else {
       addLog('warning', '未收到有效结果数据')
     }
   } catch (error: any) {
     console.error('Process error:', error)
+    processingMessage.value = '处理失败'
     addLog('error', `处理失败: ${error.message || '未知错误'}`)
     ElMessage.error('处理失败，请检查文件格式')
   } finally {
     processing.value = false
     uploadProgress.value = 0
+    processingMessage.value = '正在处理中...'
     if (fileUploadRef.value) {
       fileUploadRef.value.setProcessing(false)
     }
@@ -515,6 +541,12 @@ body {
   animation: fadeIn 0.3s ease;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .processing-overlay {
+    animation: none;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -533,6 +565,41 @@ body {
   text-align: center;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
   animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .processing-content {
+    animation: none;
+  }
+}
+
+.processing-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.03) 0%, transparent 50%);
+  animation: rotateBackground 20s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .processing-content::before {
+    animation: none;
+  }
+}
+
+@keyframes rotateBackground {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes scaleIn {
@@ -547,40 +614,108 @@ body {
   }
 }
 
-.processing-content h3 {
-  margin: 24px 0 12px;
-  font-size: 20px;
-  color: #1e293b;
-  font-weight: 600;
+.loading-icon-wrapper {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.processing-content p {
-  margin: 0;
-  font-size: 16px;
-  color: #64748b;
+.loading-spinner {
+  width: 140px;
+  height: 140px;
+  animation: rotateSpinner 1.5s linear infinite;
+  will-change: transform;
 }
 
-:deep(.el-progress__text) {
-  font-size: 18px !important;
-  font-weight: 700 !important;
-  color: #6366f1 !important;
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation: none;
+  }
 }
 
-:deep(.el-progress-circle__track) {
+@keyframes rotateSpinner {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-track {
   stroke: rgba(99, 102, 241, 0.1);
 }
 
-:deep(.el-progress-circle__path) {
-  stroke: url(#gradient);
+.spinner-path {
+  stroke: url(#spinnerGradient);
+  stroke-dasharray: 100;
+  stroke-dashoffset: 75;
+  animation: spinnerDash 1.5s ease-in-out infinite;
+  will-change: stroke-dashoffset;
 }
 
-:deep(.el-progress-circle) {
-  position: relative;
+@media (prefers-reduced-motion: reduce) {
+  .spinner-path {
+    animation: none;
+    stroke-dashoffset: 50;
+  }
 }
 
-:deep(.el-progress-circle svg) {
+@keyframes spinnerDash {
+  0% {
+    stroke-dashoffset: 75;
+  }
+
+  50% {
+    stroke-dashoffset: 25;
+  }
+
+  100% {
+    stroke-dashoffset: 75;
+  }
+}
+
+.loading-pulse {
+  position: absolute;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+  animation: pulseEffect 2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-pulse {
+    animation: none;
+  }
+}
+
+@keyframes pulseEffect {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+.processing-content h3 {
+  margin: 24px 0 0;
+  font-size: 20px;
+  color: #1e293b;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 1600px) {
