@@ -1,13 +1,28 @@
 <template>
   <div class="app-container">
     <div class="app-header">
+      <div class="header-background">
+        <div class="grid-pattern"></div>
+        <div class="gradient-overlay"></div>
+        <div class="particles">
+          <div class="particle" v-for="i in 20" :key="i" :style="getParticleStyle(i)"></div>
+        </div>
+      </div>
       <div class="header-content">
         <div class="logo-section">
-          <el-icon class="logo-icon"><connection /></el-icon>
-          <h1 class="app-title">5G网络切片资源分配系统</h1>
+          <div class="logo-wrapper">
+            <el-icon class="logo-icon">
+              <connection />
+            </el-icon>
+            <div class="logo-glow"></div>
+          </div>
+          <div class="title-group">
+            <h1 class="app-title">5G网络切片资源分配系统</h1>
+            <p class="app-subtitle">Network Slice Resource Allocation System</p>
+          </div>
         </div>
         <div class="header-info">
-          <el-tag type="info" effect="plain">无知识库版本</el-tag>
+          <VersionTag />
         </div>
       </div>
     </div>
@@ -16,11 +31,7 @@
       <el-row :gutter="20" class="top-row">
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <div class="panel-container">
-            <FileUpload
-              ref="fileUploadRef"
-              @process="handleFileProcess"
-              @clear="handleFileClear"
-            />
+            <FileUpload ref="fileUploadRef" @process="handleFileProcess" @clear="handleFileClear" />
           </div>
         </el-col>
 
@@ -34,11 +45,7 @@
       <el-row :gutter="20" class="bottom-row">
         <el-col :span="24">
           <div class="panel-container results-panel">
-            <ResultsDisplay
-              :results="results"
-              @export="exportResults"
-              @clear="clearResults"
-            />
+            <ResultsDisplay :results="results" @export="exportResults" @clear="clearResults" />
           </div>
         </el-col>
       </el-row>
@@ -61,6 +68,7 @@ import { Connection } from '@element-plus/icons-vue'
 import FileUpload from './components/FileUpload.vue'
 import ProcessLog from './components/ProcessLog.vue'
 import ResultsDisplay from './components/ResultsDisplay.vue'
+import VersionTag from './components/VersionTag.vue'
 import apiService from './services/api'
 
 interface LogEntry {
@@ -174,6 +182,22 @@ const clearResults = () => {
 const exportResults = () => {
   addLog('success', '结果已导出')
 }
+
+const getParticleStyle = (index: number) => {
+  const size = Math.random() * 4 + 2
+  const left = Math.random() * 100
+  const top = Math.random() * 100
+  const delay = Math.random() * 5
+  const duration = Math.random() * 3 + 2
+  return {
+    width: `${size}px`,
+    height: `${size}px`,
+    left: `${left}%`,
+    top: `${top}%`,
+    animationDelay: `${delay}s`,
+    animationDuration: `${duration}s`
+  }
+}
 </script>
 
 <style>
@@ -185,7 +209,7 @@ const exportResults = () => {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  background: #ffffff;
   min-height: 100vh;
 }
 
@@ -197,16 +221,112 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: #ffffff;
 }
 
 .app-header {
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 18px 32px;
+  position: relative;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 20px 32px;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.header-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+  z-index: 0;
+}
+
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.3) 0%, transparent 50%);
+  animation: gradientPulse 8s ease-in-out infinite;
+}
+
+@keyframes gradientPulse {
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.grid-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(30px, 30px);
+  }
+}
+
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: particleFloat linear infinite;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100vh) translateX(20px);
+    opacity: 0;
+  }
 }
 
 .header-content {
@@ -215,36 +335,122 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  z-index: 1;
 }
 
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 20px;
+  cursor: pointer;
+  padding: 12px 20px;
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-section:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.logo-section:active {
+  transform: translateY(-1px) scale(1.01);
+}
+
+.logo-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo-icon {
-  font-size: 32px;
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  font-size: 42px;
+  background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.4));
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-glow {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: glowPulse 3s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes glowPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 0.8;
+  }
+}
+
+.logo-section:hover .logo-icon {
+  transform: scale(1.15) rotate(5deg);
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.6));
+}
+
+.title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .app-title {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 700;
-  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: 0.5px;
+  color: #ffffff;
+  letter-spacing: 0.8px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  line-height: 1.2;
+}
+
+.app-subtitle {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.logo-section:hover .app-title {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  transform: translateX(3px);
+}
+
+.logo-section:hover .app-subtitle {
+  color: rgba(255, 255, 255, 1);
+  transform: translateX(3px);
 }
 
 .header-info {
   display: flex;
-  gap: 12px;
+  gap: 20px;
+  align-items: center;
 }
 
 .app-main {
@@ -268,11 +474,10 @@ body {
 }
 
 .panel-container {
-  background: rgba(30, 41, 59, 0.7);
-  backdrop-filter: blur(16px);
+  background: #ffffff;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -291,8 +496,8 @@ body {
 
 .panel-container:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: rgba(99, 102, 241, 0.2);
 }
 
 .processing-overlay {
@@ -301,7 +506,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(15, 23, 42, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
@@ -314,18 +519,19 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
 .processing-content {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   padding: 56px 64px;
   border-radius: 24px;
   text-align: center;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
   animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -334,6 +540,7 @@ body {
     transform: scale(0.85);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
@@ -343,14 +550,14 @@ body {
 .processing-content h3 {
   margin: 24px 0 12px;
   font-size: 20px;
-  color: #e2e8f0;
+  color: #1e293b;
   font-weight: 600;
 }
 
 .processing-content p {
   margin: 0;
   font-size: 16px;
-  color: #94a3b8;
+  color: #64748b;
 }
 
 :deep(.el-progress__text) {
@@ -360,7 +567,7 @@ body {
 }
 
 :deep(.el-progress-circle__track) {
-  stroke: rgba(255, 255, 255, 0.08);
+  stroke: rgba(99, 102, 241, 0.1);
 }
 
 :deep(.el-progress-circle__path) {
@@ -380,11 +587,53 @@ body {
   .app-main {
     padding: 24px 28px;
   }
+
+  .app-header {
+    padding: 18px 28px;
+  }
+
+  .logo-section {
+    padding: 10px 16px;
+    gap: 16px;
+  }
+
+  .logo-icon {
+    font-size: 38px;
+  }
+
+  .app-title {
+    font-size: 24px;
+  }
+
+  .app-subtitle {
+    font-size: 11px;
+  }
 }
 
 @media (max-width: 1400px) {
   .app-main {
     padding: 20px 24px;
+  }
+
+  .app-header {
+    padding: 16px 24px;
+  }
+
+  .logo-section {
+    padding: 8px 14px;
+    gap: 14px;
+  }
+
+  .logo-icon {
+    font-size: 36px;
+  }
+
+  .app-title {
+    font-size: 22px;
+  }
+
+  .app-subtitle {
+    font-size: 10px;
   }
 
   .top-row .panel-container {
@@ -403,13 +652,26 @@ body {
     padding: 14px 20px;
   }
 
-  .app-main {
-    padding: 18px 20px;
-    gap: 16px;
+  .logo-section {
+    padding: 6px 12px;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    font-size: 32px;
   }
 
   .app-title {
-    font-size: 18px;
+    font-size: 20px;
+  }
+
+  .app-subtitle {
+    display: none;
+  }
+
+  .app-main {
+    padding: 18px 20px;
+    gap: 16px;
   }
 
   .top-row .panel-container {
@@ -444,16 +706,29 @@ body {
     padding: 12px 16px;
   }
 
-  .app-main {
-    padding: 14px 16px;
-  }
-
-  .app-title {
-    font-size: 16px;
+  .logo-section {
+    padding: 8px 12px;
+    gap: 10px;
   }
 
   .logo-icon {
-    font-size: 26px;
+    font-size: 28px;
+  }
+
+  .app-title {
+    font-size: 18px;
+  }
+
+  .app-subtitle {
+    display: none;
+  }
+
+  .header-info {
+    gap: 8px;
+  }
+
+  .app-main {
+    padding: 14px 16px;
   }
 
   .top-row .panel-container {

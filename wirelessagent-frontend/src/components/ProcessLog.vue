@@ -2,7 +2,9 @@
   <div class="process-log-container">
     <div class="log-header">
       <div class="header-left">
-        <el-icon class="header-icon"><document /></el-icon>
+        <el-icon class="header-icon">
+          <document />
+        </el-icon>
         <h3>处理日志</h3>
         <el-badge :value="logCount" class="log-count" />
       </div>
@@ -10,14 +12,9 @@
 
     <div class="log-filter">
       <div class="filter-buttons">
-        <el-button
-          v-for="filter in filterOptions"
-          :key="filter.value"
-          size="small"
-          :type="activeFilter === filter.value ? 'primary' : ''"
-          @click="activeFilter = filter.value"
-          :class="['filter-btn', `filter-${filter.value}`]"
-        >
+        <el-button v-for="filter in filterOptions" :key="filter.value" size="small"
+          :type="activeFilter === filter.value ? 'primary' : ''" @click="activeFilter = filter.value"
+          :class="['filter-btn', `filter-${filter.value}`]">
           <el-icon>
             <component :is="filter.icon" />
           </el-icon>
@@ -28,11 +25,7 @@
 
     <div class="log-content" ref="logContentRef">
       <transition-group name="log-item">
-        <div
-          v-for="(log, index) in filteredLogs"
-          :key="index"
-          :class="['log-item', `log-${log.type}`]"
-        >
+        <div v-for="(log, index) in filteredLogs" :key="index" :class="['log-item', `log-${log.type}`]">
           <el-icon class="log-icon">
             <component :is="getLogIcon(log.type)" />
           </el-icon>
@@ -54,11 +47,15 @@
 
     <div class="log-footer">
       <el-button size="small" @click="clearLogs" class="footer-btn">
-        <el-icon><delete /></el-icon>
+        <el-icon>
+          <delete />
+        </el-icon>
         清空日志
       </el-button>
       <el-button size="small" @click="exportLogs" class="footer-btn primary">
-        <el-icon><download /></el-icon>
+        <el-icon>
+          <download />
+        </el-icon>
         导出日志
       </el-button>
     </div>
@@ -87,7 +84,15 @@ const logContentRef = ref<HTMLElement>()
 const logCount = computed(() => props.logs.length)
 const activeFilter = ref<'all' | 'info' | 'success' | 'warning' | 'error'>('all')
 
-const filterOptions = [
+type FilterType = 'all' | 'info' | 'success' | 'warning' | 'error'
+
+interface FilterOption {
+  value: FilterType
+  label: string
+  icon: any
+}
+
+const filterOptions: FilterOption[] = [
   { value: 'all', label: '全部', icon: Document },
   { value: 'info', label: '信息', icon: InfoFilled },
   { value: 'success', label: '成功', icon: SuccessFilled },
@@ -109,7 +114,7 @@ watch(() => filteredLogs.value.length, async () => {
   }
 })
 
-const getLogIcon = (type: string) => {
+const getLogIcon = (type: 'info' | 'success' | 'warning' | 'error') => {
   const iconMap: Record<string, any> = {
     info: InfoFilled,
     success: SuccessFilled,
@@ -127,7 +132,7 @@ const exportLogs = () => {
   const logText = props.logs
     .map(log => `[${log.time}] [${log.type.toUpperCase()}] ${log.message}`)
     .join('\n')
-  
+
   const blob = new Blob([logText], { type: 'text/plain' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
@@ -189,8 +194,8 @@ const exportLogs = () => {
 
 .log-filter {
   padding: 12px 16px;
-  background: rgba(15, 23, 42, 0.5);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: #f8fafc;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .filter-buttons {
@@ -204,14 +209,14 @@ const exportLogs = () => {
   padding: 6px 14px;
   font-weight: 500;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: #94a3b8;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  color: #64748b;
 }
 
 .filter-btn:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  color: #e2e8f0;
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #1e293b;
   transform: translateY(-1px);
 }
 
@@ -246,7 +251,7 @@ const exportLogs = () => {
   flex: 1;
   overflow-y: auto;
   padding: 14px 16px;
-  background: rgba(15, 23, 42, 0.3);
+  background: #ffffff;
   max-height: none;
 }
 
@@ -259,12 +264,12 @@ const exportLogs = () => {
 }
 
 .log-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(99, 102, 241, 0.2);
   border-radius: 3px;
 }
 
 .log-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(99, 102, 241, 0.4);
 }
 
 .log-item {
@@ -274,15 +279,15 @@ const exportLogs = () => {
   padding: 10px 14px;
   margin-bottom: 8px;
   border-radius: 10px;
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   animation: slideIn 0.3s ease;
   transition: all 0.2s ease;
 }
 
 .log-item:hover {
-  background: rgba(51, 65, 85, 0.9);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: #f8fafc;
+  border-color: rgba(99, 102, 241, 0.2);
   transform: translateX(2px);
 }
 
@@ -291,6 +296,7 @@ const exportLogs = () => {
     opacity: 0;
     transform: translateX(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -328,7 +334,7 @@ const exportLogs = () => {
 
 .log-message {
   flex: 1;
-  color: #e2e8f0;
+  color: #1e293b;
   font-size: 14px;
   line-height: 1.5;
   word-break: break-all;
@@ -364,8 +370,8 @@ const exportLogs = () => {
 
 .log-footer {
   padding: 12px 16px;
-  background: rgba(15, 23, 42, 0.5);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: #f8fafc;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   gap: 10px;
   justify-content: flex-end;

@@ -40,7 +40,7 @@
           <div class="table-wrapper">
             <el-table :data="results" stripe style="width: 100%" :row-class-name="tableRowClassName"
               :cell-class-name="tableCellClassName"
-              :header-cell-style="{ background: 'rgba(15, 23, 42, 0.6)', color: '#cbd5e1', fontWeight: '600' }">
+              :header-cell-style="{ background: '#f8fafc', color: '#1e293b', fontWeight: '600' }">
               <el-table-column prop="user_id" label="用户ID" width="100" fixed align="center">
                 <template #default="{ row }">
                   <span class="user-id">{{ row.user_id }}</span>
@@ -116,7 +116,7 @@
                       <div class="stat-label">成功分配</div>
                     </div>
                     <div class="stat-progress">
-                      <div class="progress-bar" :style="{ width: successRate + '%' }"></div>
+                      <div class="progress-bar" :style="{ width: String(successRate) + '%' }"></div>
                     </div>
                   </div>
                 </el-col>
@@ -130,7 +130,7 @@
                       <div class="stat-label">分配失败</div>
                     </div>
                     <div class="stat-progress">
-                      <div class="progress-bar" :style="{ width: (100 - parseFloat(successRate)) + '%' }"></div>
+                      <div class="progress-bar" :style="{ width: (100 - Number(parseFloat(successRate))) + '%' }"></div>
                     </div>
                   </div>
                 </el-col>
@@ -140,7 +140,7 @@
                       <el-icon class="stat-icon"><trend-charts /></el-icon>
                     </div>
                     <div class="stat-content">
-                      <div class="stat-value">{{ successRate }}%</div>
+                      <div class="stat-value">{{ successRate.toFixed(1) }}%</div>
                       <div class="stat-label">成功率</div>
                     </div>
                     <div class="stat-progress">
@@ -302,7 +302,7 @@ const successCount = computed(() => props.results.filter(r => !r.allocation_fail
 const failedCount = computed(() => props.results.filter(r => r.allocation_failed).length)
 const successRate = computed(() => {
   if (props.results.length === 0) return 0
-  return ((successCount.value / props.results.length) * 100).toFixed(1)
+  return (successCount.value / props.results.length) * 100
 })
 
 const embbCount = computed(() => props.results.filter(r => r.slice_type === 'eMBB').length)
@@ -429,8 +429,8 @@ const clearResults = () => {
 }
 
 .count-tag {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: #fff;
   font-weight: 600;
   backdrop-filter: blur(8px);
@@ -452,7 +452,7 @@ const clearResults = () => {
 .empty-main {
   margin: 0 0 8px 0;
   font-size: 17px;
-  color: #cbd5e1;
+  color: #1e293b;
   font-weight: 500;
 }
 
@@ -497,29 +497,29 @@ const clearResults = () => {
 }
 
 :deep(.el-tabs__content::-webkit-scrollbar-track) {
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 4px;
 }
 
 :deep(.el-tabs__content::-webkit-scrollbar-thumb) {
-  background: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.3);
   border-radius: 4px;
   transition: background 0.3s ease;
 }
 
 :deep(.el-tabs__content::-webkit-scrollbar-thumb:hover) {
-  background: rgba(99, 102, 241, 0.6);
+  background: rgba(99, 102, 241, 0.5);
 }
 
 :deep(.el-tabs__header) {
   margin: 0;
   padding: 0 20px;
-  background: rgba(15, 23, 42, 0.4);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: #f8fafc;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 :deep(.el-tabs__nav-wrap::after) {
-  background-color: rgba(255, 255, 255, 0.06);
+  background-color: rgba(0, 0, 0, 0.06);
 }
 
 :deep(.el-tabs__item) {
@@ -532,7 +532,7 @@ const clearResults = () => {
 }
 
 :deep(.el-tabs__item:hover) {
-  color: #e2e8f0;
+  color: #1e293b;
 }
 
 :deep(.el-tabs__item.is-active) {
@@ -558,10 +558,10 @@ const clearResults = () => {
 }
 
 .table-wrapper {
-  background: rgba(15, 23, 42, 0.4);
+  background: #ffffff;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -589,18 +589,18 @@ const clearResults = () => {
 }
 
 :deep(.el-table__body-wrapper::-webkit-scrollbar-track) {
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 4px;
 }
 
 :deep(.el-table__body-wrapper::-webkit-scrollbar-thumb) {
-  background: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.3);
   border-radius: 4px;
   transition: background 0.3s ease;
 }
 
 :deep(.el-table__body-wrapper::-webkit-scrollbar-thumb:hover) {
-  background: rgba(99, 102, 241, 0.6);
+  background: rgba(99, 102, 241, 0.5);
 }
 
 :deep(.el-table__header-wrapper) {
@@ -612,36 +612,36 @@ const clearResults = () => {
 }
 
 :deep(.el-table td) {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   padding: 12px 0;
   background: transparent;
 }
 
 :deep(.el-table__body tr:hover > td) {
-  background: rgba(51, 65, 85, 0.5) !important;
+  background: rgba(99, 102, 241, 0.05) !important;
 }
 
 :deep(.el-table .failed-row) {
-  background: rgba(239, 68, 68, 0.08);
+  background: rgba(239, 68, 68, 0.05);
 }
 
 :deep(.el-table .failed-row:hover > td) {
-  background: rgba(239, 68, 68, 0.12) !important;
+  background: rgba(239, 68, 68, 0.08) !important;
 }
 
 :deep(.el-table .rate-cell) {
-  color: #818cf8;
+  color: #6366f1;
   font-weight: 700;
 }
 
 .user-id {
   font-weight: 600;
-  color: #e2e8f0;
+  color: #1e293b;
   font-family: 'SF Mono', 'Consolas', 'Courier New', monospace;
 }
 
 .request-text {
-  color: #cbd5e1;
+  color: #475569;
   font-size: 14px;
 }
 
@@ -706,18 +706,18 @@ const clearResults = () => {
 }
 
 .slice-badge.default {
-  background: rgba(255, 255, 255, 0.1);
-  color: #cbd5e1;
+  background: rgba(0, 0, 0, 0.05);
+  color: #475569;
 }
 
 .metric-value {
   font-weight: 500;
-  color: #e2e8f0;
+  color: #1e293b;
   font-size: 15px;
 }
 
 .metric-value.highlight {
-  color: #818cf8;
+  color: #6366f1;
   font-weight: 700;
   font-size: 16px;
 }
@@ -757,18 +757,18 @@ const clearResults = () => {
 }
 
 .statistics-content::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 4px;
 }
 
 .statistics-content::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.3);
   border-radius: 4px;
   transition: background 0.3s ease;
 }
 
 .statistics-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.6);
+  background: rgba(99, 102, 241, 0.5);
 }
 
 .stat-section {
@@ -783,20 +783,21 @@ const clearResults = () => {
   margin: 0 0 18px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #e2e8f0;
+  color: #1e293b;
   padding-left: 12px;
   border-left: 4px solid #6366f1;
 }
 
 .stat-card {
-  background: rgba(30, 41, 59, 0.7);
+  background: #ffffff;
   border-radius: 16px;
   padding: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .stat-card::before {
@@ -817,8 +818,8 @@ const clearResults = () => {
 
 .stat-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  border-color: rgba(99, 102, 241, 0.2);
 }
 
 .stat-card.success-card::before {
@@ -915,7 +916,7 @@ const clearResults = () => {
 .stat-value {
   font-size: 30px;
   font-weight: 700;
-  color: #e2e8f0;
+  color: #1e293b;
   line-height: 1.2;
   margin-bottom: 4px;
 }
@@ -928,7 +929,7 @@ const clearResults = () => {
 
 .stat-progress {
   height: 6px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.08);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -974,11 +975,11 @@ const clearResults = () => {
 
 .results-footer {
   padding: 18px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   gap: 12px;
   justify-content: flex-end;
-  background: rgba(15, 23, 42, 0.4);
+  background: #f8fafc;
 }
 
 .action-button {
@@ -987,16 +988,16 @@ const clearResults = () => {
   font-weight: 600;
   font-size: 15px;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: #e2e8f0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  color: #1e293b;
 }
 
 .action-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  background: #f8fafc;
 }
 
 .action-button.primary {

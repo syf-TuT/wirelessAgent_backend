@@ -159,18 +159,18 @@ defineExpose({
 }
 
 :deep(.el-upload__text) {
-  color: #e2e8f0;
+  color: #1e293b;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.6;
 }
 
 :deep(.el-upload__text em) {
-  color: #a78bfa;
+  color: #6366f1;
   font-style: normal;
   font-weight: 700;
   text-decoration: underline;
-  text-decoration-color: rgba(167, 139, 250, 0.5);
+  text-decoration-color: rgba(99, 102, 241, 0.3);
   text-underline-offset: 4px;
 }
 
@@ -184,31 +184,31 @@ defineExpose({
 
 .file-info {
   margin-top: 20px;
-  background: rgba(30, 41, 59, 0.7);
+  background: #ffffff;
   border-radius: 12px;
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 :deep(.el-descriptions) {
-  --el-text-color-regular: #cbd5e1;
-  --el-descriptions-border-color: rgba(255, 255, 255, 0.08);
-  --el-descriptions-table-border-color: rgba(255, 255, 255, 0.08);
-  --el-fill-color-light: rgba(15, 23, 42, 0.4);
+  --el-text-color-regular: #475569;
+  --el-descriptions-border-color: rgba(0, 0, 0, 0.08);
+  --el-descriptions-table-border-color: rgba(0, 0, 0, 0.08);
+  --el-fill-color-light: #f8fafc;
 }
 
 :deep(.el-descriptions__label) {
   font-weight: 600;
-  color: #94a3b8;
+  color: #64748b;
 }
 
 :deep(.el-descriptions__body .el-descriptions__table .el-descriptions__cell.is-bordered-label) {
-  background: rgba(15, 23, 42, 0.6);
+  background: #f8fafc;
 }
 
 :deep(.el-descriptions__content) {
-  color: #e2e8f0;
+  color: #1e293b;
   font-weight: 500;
 }
 
@@ -244,16 +244,16 @@ defineExpose({
 }
 
 .clear-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #e2e8f0;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #1e293b;
 }
 
 .clear-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: #f8fafc;
+  border-color: rgba(99, 102, 241, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .clear-btn:active {
